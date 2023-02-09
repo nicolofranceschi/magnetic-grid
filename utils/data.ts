@@ -41,7 +41,7 @@ export const datas: Datas = {
             [1, 1, 1, 1],
             [1, 1, 1, 1],
         ],
-        image: 'src/assets/bar31.png',
+        image: 'assets/bar31.png',
     },
     bar51: {
         title: 'Bar 5 1M',
@@ -61,7 +61,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/bar51.png',
+        image: 'assets/bar51.png',
     },
     fed4: {
         title: 'Power Fed 3',
@@ -75,7 +75,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/fed4.png',
+        image: 'assets/fed4.png',
     },
     fed5: {
         title: 'Power Fed 5',
@@ -89,7 +89,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/fed5.png',
+        image: 'assets/fed5.png',
     },
     jp: {
         title: 'Joint',
@@ -103,7 +103,7 @@ export const datas: Datas = {
             [0, 1, 1, 1, 0],
             [0, 1, 1, 1, 0],
         ],
-        image: 'src/assets/jp.png',
+        image: 'assets/jp.png',
     },
     jpA: {
         title: 'Joint',
@@ -115,7 +115,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/jpA.png',
+        image: 'assets/jpA.png',
     },
     jpB: {
         title: 'Joint',
@@ -127,7 +127,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/jpB.png',
+        image: '/assets/jpB.png',
     },
     end: {
         title: 'End Cap',
@@ -136,7 +136,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
         ],
-        image: 'src/assets/end.png',
+        image: 'assets/end.png',
     },
     con: {
         title: 'Conector',
@@ -151,7 +151,7 @@ export const datas: Datas = {
             [1, 1, 1, 1, 1, 0, 0, 0],
             [0, 0, 0, 1, 1, 0, 0, 0],
         ],
-        image: 'src/assets/con.png',
+        image: 'assets/con.png',
     },
     conQ: {
         title: 'Conector',
@@ -163,6 +163,6 @@ export const datas: Datas = {
             [0, 1, 0, 0, 0, 0],
             [0, 1, 0, 0, 0, 0],
         ],
-        image: 'src/assets/conQ.png',
+        image: 'assets/conQ.png',
     }
 }
