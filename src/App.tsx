@@ -1,5 +1,5 @@
-import Drawing from "../components/Drawing";
-import useWindowSize from "./../utils/useWindowSize";
+import Drawing from "./components/Drawing";
+import useWindowSize from "./utils/useWindowSize";
 
 export default function App() {
 
