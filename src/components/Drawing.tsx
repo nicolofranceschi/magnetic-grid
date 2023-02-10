@@ -1,34 +1,34 @@
 import { useState } from 'react'
 import { Stage, Layer, Rect } from 'react-konva';
-import { datas, ListData } from '../utils/data';
+import { ListData } from '../utils/data';
 import { Header } from './Header';
 import { Item } from './Item';
-import { createGridFromArray2D, selectCell } from "gridl/core";
+import { createGridFromArray2D } from "gridl/core";
 import { rotate90, transform } from 'gridl';
+import { StageSize } from '../types';
 
 export const CALIBRATION_SIZE = 10;
 
-const rotateMatrix90 = (matrix: number[][], direction: number) => {
+const rotateMatrix90 = (matrix: number[][]) => {
     const grid = createGridFromArray2D(matrix);
-    const rotatedGrid = transform(rotate90(-1))(grid);
-    return rotatedGrid.array2D as number[][];
+    const rotatedGrid = transform(rotate90<number>(-1))(grid);
+    return rotatedGrid.array2D;
 }
 
-
-export default function Drawing({ maxX, maxY }: { maxX: number, maxY: number }) {
-
+export default function Drawing(props: StageSize) {
     const [list, setList] = useState<ListData>();
 
     const [selected, setSelected] = useState<string>();
 
-    const rotate = (id: string) => {
-        setList((currentList: ListData | undefined): ListData | undefined => {
+    const rotate = () => {
+        if (!selected) return;
+        setList((currentList) => {
             if (!currentList) return undefined;
             return {
-                ...currentList, [id]: {
-                    ...currentList[id],
-                    rotate: currentList[id].rotate + 90,
-                    path: rotateMatrix90(currentList[id].path, 1)
+                ...currentList, [selected]: {
+                    ...currentList[selected],
+                    rotate: currentList[selected].rotate + 90,
+                    path: rotateMatrix90(currentList[selected].path)
                 }
             }
         })
@@ -38,13 +38,13 @@ export default function Drawing({ maxX, maxY }: { maxX: number, maxY: number }) 
         <div className='bg'>
             <Header setList={setList} />
             {list && selected && <div className='tools'>
-                <button onClick={() => rotate(selected)} >
+                <button onClick={rotate} type='button'>
                     <span>rotate</span>
                 </button>
             </div>}
-            <Stage className='stage' width={maxX} height={maxY} >
+            <Stage className='stage' {...props}>
                 <Layer>
-                    {selected && list && list[selected].path.map((row, i) => {
+                    {selected && list?.[selected].path.map((row, i) => {
                         return row.map((col, j) => {
                             if (col === 0) return null;
                             return (
@@ -59,8 +59,8 @@ export default function Drawing({ maxX, maxY }: { maxX: number, maxY: number }) 
                             )
                         })
                     })}
-                    {list && Object.entries(list).map(([key, item], i) => (
-                        <Item key={key} id={key} item={item} list={list} setList={setList} selected={selected} setSelected={setSelected} maxX={maxX} maxY={maxY} />
+                    {list && Object.entries(list).map(([key, item]) => (
+                        <Item key={key} id={key} item={item} list={list} setList={setList} selected={selected} setSelected={setSelected} {...props} />
                     ))}
                 </Layer>
             </Stage>

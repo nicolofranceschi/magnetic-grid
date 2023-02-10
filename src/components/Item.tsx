@@ -3,8 +3,18 @@ import useImage from 'use-image';
 import { borderBound } from '../utils/function';
 import { datas, ListData, ListItem } from '../utils/data';
 import { CALIBRATION_SIZE } from './Drawing';
+import { StageSize } from '../types';
 
-export const Item = ({ id, item, setList, setSelected, maxX, maxY }: { id: string; item: ListItem; list: ListData; setList: SetFunction<ListData | undefined>; selected: string | undefined; setSelected: SetFunction<string | undefined>; maxX: number; maxY: number; }) => {
+type ItemProps = StageSize & {
+    id: string;
+    item: ListItem;
+    list: ListData;
+    setList: SetFunction<ListData | undefined>;
+    selected: string | undefined;
+    setSelected: SetFunction<string | undefined>;
+};
+
+export const Item = ({ id, item, setList, setSelected, height, width }: ItemProps) => {
 
     const [img] = useImage(datas[item.type].image);
 
@@ -30,7 +40,7 @@ export const Item = ({ id, item, setList, setSelected, maxX, maxY }: { id: strin
                 setList(list => list && ({ ...list, [id]: { ...list[id], x: Math.round(item.x / CALIBRATION_SIZE) * CALIBRATION_SIZE, y: Math.round(item.y / CALIBRATION_SIZE) * CALIBRATION_SIZE } }));
             }}
             offset={offsetCalculation(item.rotate , item)}
-            dragBoundFunc={(pos) => borderBound({ ...pos, maxX, maxY, sizeX: datas[item.type].path[0].length * CALIBRATION_SIZE, sizeY: datas[item.type].path.length * CALIBRATION_SIZE })} />
+            dragBoundFunc={(pos) => borderBound({ ...pos, height, width, sizeX: datas[item.type].path[0].length * CALIBRATION_SIZE, sizeY: datas[item.type].path.length * CALIBRATION_SIZE })} />
     );
 };
 

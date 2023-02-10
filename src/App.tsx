@@ -6,6 +6,6 @@ export default function App() {
   const { width , height } = useWindowSize();
 
   return (
-    <Drawing maxX={ width ?? 0 } maxY={ height ?? 0 } />
+    <Drawing width={ width ?? 0 } height={ height ?? 0 } />
   );
 }

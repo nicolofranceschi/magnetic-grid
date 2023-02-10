@@ -20,7 +20,6 @@ export type ListData = {
     [key: string]: ListItem
 }
 
-
 export const datas: Datas = {
     bar31: {
         title: 'Bar 3 1M',
