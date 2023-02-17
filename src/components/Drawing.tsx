@@ -78,6 +78,15 @@ export default function Drawing(props: StageSize) {
                         </svg>
                     </span>
                 </button>
+                
+            </div>}
+            <div className='zoom'>
+                <button onClick={() => setZoom((czoom) => czoom + 0.1)} type='button'>
+                    <span>+</span>
+                </button>
+                <button onClick={() => setZoom((czoom) => czoom - 0.1)} type='button'>
+                    <span>-</span>
+                </button>
                 <button onClick={() => isFullscreen ? document.exitFullscreen() : document.body.requestFullscreen()} type='button'>
                     <span>
                         <svg height="14px" version="1.1" viewBox="0 0 14 14" width="14px" xmlns="http://www.w3.org/2000/svg">
@@ -90,14 +99,6 @@ export default function Drawing(props: StageSize) {
                             </g>
                         </svg>
                     </span>
-                </button>
-            </div>}
-            <div className='zoom'>
-                <button onClick={() => setZoom((czoom) => czoom + 0.1)} type='button'>
-                    <span>+</span>
-                </button>
-                <button onClick={() => setZoom((czoom) => czoom - 0.1)} type='button'>
-                    <span>-</span>
                 </button>
             </div>
             <Stage className='stage' width={2000} height={2000} scaleX={zoom} scaleY={zoom} >
