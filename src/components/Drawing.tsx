@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Rect } from 'react-konva';
 import { ListData } from '../utils/data';
 import { Header } from './Header';
@@ -6,6 +6,15 @@ import { Item } from './Item';
 import { createGridFromArray2D } from "gridl/core";
 import { rotate90, transform } from 'gridl';
 import { StageSize } from '../types';
+
+function downloadURI(uri: string, name: string) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 export const CALIBRATION_SIZE = 10;
 
@@ -18,8 +27,11 @@ const rotateMatrix90 = (matrix: number[][]) => {
 export default function Drawing(props: StageSize) {
     const [list, setList] = useState<ListData>();
     const [zoom, setZoom] = useState<number>(0.5);
+    const [stagePos, setStagePos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
 
     const [selected, setSelected] = useState<string>();
+
+    const stageRef = useRef<any>();
 
     const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -58,7 +70,13 @@ export default function Drawing(props: StageSize) {
         })
     }
 
-    console.log(list)
+    const handleExport = () => {
+        if (!stageRef.current) return;
+        setSelected(undefined);
+        const uri = stageRef.current.toDataURL();
+        console.log(uri);
+        downloadURI(uri, "stage.png");
+    };
 
     return (
         <div className='bg'>
@@ -78,7 +96,7 @@ export default function Drawing(props: StageSize) {
                         </svg>
                     </span>
                 </button>
-                
+
             </div>}
             <div className='zoom'>
                 <button onClick={() => setZoom((czoom) => czoom + 0.1)} type='button'>
@@ -100,9 +118,31 @@ export default function Drawing(props: StageSize) {
                         </svg>
                     </span>
                 </button>
+                <button onClick={handleExport} type='button'>
+                    <span>
+                        SAVE
+                    </span>
+                </button>
             </div>
-            <Stage className='stage' width={2000} height={2000} scaleX={zoom} scaleY={zoom} >
+            <Stage
+                ref={stageRef}
+                className='stage'
+                {...props}
+                {...stagePos}
+                scaleX={zoom}
+                scaleY={zoom}
+                draggable
+                onDragEnd={e => {
+                    setStagePos(e.currentTarget.position());
+                }}
+            >
                 <Layer>
+                    <Rect
+                        x={0}
+                        y={0}
+                        {...props}
+                        fill='white'
+                    />
                     {selected && list?.[selected].path?.map((row, i) => {
                         return row.map((col, j) => {
                             if (col === 0) return null;
