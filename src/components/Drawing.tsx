@@ -17,6 +17,7 @@ const rotateMatrix90 = (matrix: number[][]) => {
 
 export default function Drawing(props: StageSize) {
     const [list, setList] = useState<ListData>();
+    const [zoom, setZoom] = useState<number>(0.5);
 
     const [selected, setSelected] = useState<string>();
 
@@ -34,6 +35,18 @@ export default function Drawing(props: StageSize) {
         })
     }
 
+    const deleteElement = () => {
+        if (!selected) return;
+        setSelected(undefined);
+        setList((currentList) => {
+            if (!currentList) return undefined;
+            const { [selected]:_ , ...newList } = currentList;
+            return newList
+        })
+    }
+
+    console.log(list)
+
     return (
         <div className='bg'>
             <Header setList={setList} />
@@ -41,10 +54,21 @@ export default function Drawing(props: StageSize) {
                 <button onClick={rotate} type='button'>
                     <span>rotate</span>
                 </button>
+                <button onClick={deleteElement} type='button'>
+                    <span>delete</span>
+                </button>
             </div>}
-            <Stage className='stage' {...props}>
+            <div className='zoom'>
+                <button onClick={()=>setZoom((czoom)=> czoom + 0.1 )} type='button'>
+                    <span>+</span>
+                </button>
+                <button onClick={()=>setZoom((czoom)=> czoom - 0.1 )} type='button'>
+                    <span>-</span>
+                </button>
+            </div>
+            <Stage className='stage' width={2000} height={2000} scaleX={zoom} scaleY={zoom} >
                 <Layer>
-                    {selected && list?.[selected].path.map((row, i) => {
+                    {selected && list?.[selected].path?.map((row, i) => {
                         return row.map((col, j) => {
                             if (col === 0) return null;
                             return (

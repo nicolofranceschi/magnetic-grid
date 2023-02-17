@@ -8,8 +8,8 @@ export const Header = ({ setList }: { setList: SetFunction<ListData | undefined>
                     type: key,
                     path: data.path,
                     rotate: 0,
-                    x: 150,
-                    y: 20,
+                    x: 800,
+                    y: 700,
                 }
             }))}>
                 <span>{data.title}</span>
