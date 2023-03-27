@@ -11,14 +11,14 @@ export default function App() {
   function displayMessage(evt: MessageEvent) {
     console.log(evt);
     setMessage(evt);
+    alert("message");
     alert(evt.toString());
   }
 
   useEffect(() => {
     if(!window) return;
-    alert("instance");
-    window.addEventListener("message", displayMessage, false);
-    return window.removeEventListener("message", displayMessage, false);
+    window.addEventListener("message", displayMessage);
+    return window.removeEventListener("message", displayMessage);
   }, [])
 
   return (
