@@ -19,7 +19,6 @@ export default function App() {
     if(!window) return;
     window.parent.postMessage("Hello from the child!", "*");
     window.addEventListener("message", displayMessage);
-    return window.removeEventListener("message", displayMessage);
   }, [])
 
   return (
