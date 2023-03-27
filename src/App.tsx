@@ -11,14 +11,16 @@ export default function App() {
   function displayMessage(evt: MessageEvent) {
     console.log(evt);
     setMessage(evt);
-    alert("message");
-    alert(evt.toString());
+    alert(evt.data.toString());
   }
 
   useEffect(() => {
     if(!window) return;
     window.parent.postMessage("Hello from the child!", "*");
     window.addEventListener("message", displayMessage);
+    return () => {
+      window.removeEventListener("message", displayMessage);
+    }
   }, [])
 
   return (
