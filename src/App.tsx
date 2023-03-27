@@ -16,6 +16,7 @@ export default function App() {
 
   useEffect(() => {
     if(!window) return;
+    alert("instance");
     window.addEventListener("message", displayMessage, false);
     return window.removeEventListener("message", displayMessage, false);
   }, [])
