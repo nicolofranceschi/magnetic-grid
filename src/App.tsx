@@ -17,6 +17,7 @@ export default function App() {
 
   useEffect(() => {
     if(!window) return;
+    window.parent.postMessage("Hello from the child!", "*");
     window.addEventListener("message", displayMessage);
     return window.removeEventListener("message", displayMessage);
   }, [])
