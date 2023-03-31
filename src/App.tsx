@@ -8,7 +8,7 @@ export default function App() {
 
   const { width, height } = useWindowSize();
 
-  const [message, setMessage] = useState<string | null>("4-CU");
+  const [message, setMessage] = useState<string | null>();
 
   // 4-CU , 5-CU , 4-AL , 5-AL
 

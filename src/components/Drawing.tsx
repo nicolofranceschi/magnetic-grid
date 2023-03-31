@@ -82,6 +82,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
 
     const handleExport = async () => {
         if (!layerRef.current) return;
+        stageRef.current.scale({ x: 0, y: 0 });
         flushSync(() => setSelected(undefined))
         const uri = layerRef.current.toDataURL({
             mimeType: 'image/png',
