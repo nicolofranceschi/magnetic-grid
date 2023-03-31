@@ -7,6 +7,7 @@ import { createGridFromArray2D } from "gridl/core";
 import { rotate90, transform } from 'gridl';
 import { StageSize } from '../types';
 import { flushSync } from 'react-dom';
+import { source } from '../App';
 
 function downloadURI(uri: string, name: string) {
     var link = document.createElement("a");
@@ -57,6 +58,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     useEffect(() => {
         const arrToSend = Object.values(list).filter((value) => value.type.startsWith("feed"))
         parent.postMessage(arrToSend)
+        source?.postMessage(arrToSend)
     }, [list && Object.keys(list).length])
 
     const rotate = () => {
