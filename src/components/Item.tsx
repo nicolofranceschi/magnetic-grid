@@ -1,7 +1,7 @@
 import { Image } from 'react-konva';
 import useImage from 'use-image';
 import { borderBound } from '../utils/function';
-import { datas, ListData, ListItem } from '../utils/data';
+import { connectors, datas, feed, ListData, ListItem } from '../utils/data';
 import { CALIBRATION_SIZE } from './Drawing';
 import { StageSize } from '../types';
 
@@ -14,7 +14,7 @@ type ItemProps = StageSize & {
     setSelected: SetFunction<string | undefined>;
 };
 
-function findConnectedItems(id: string, connectors: string[][], list: ListData) {
+function findConnectedItems(id: string, connectors: string [][], list: ListData) {
     const listWithoutCurrent = Object.entries(list).filter(([key]) => key !== id);
     return Object.fromEntries(listWithoutCurrent.filter(([key, item]) => {
         if (!item.connectors || item.connectors.length === 0) return null;
@@ -24,7 +24,7 @@ function findConnectedItems(id: string, connectors: string[][], list: ListData) 
 
 export const Item = ({ id, item, setList, setSelected, height, width }: ItemProps) => {
 
-    const [img] = useImage(datas[item.type].image);
+    const [img] = useImage({...datas,...connectors,...feed}[item.type].image);
 
     return (
         <Image
@@ -32,8 +32,8 @@ export const Item = ({ id, item, setList, setSelected, height, width }: ItemProp
             x={item.x}
             y={item.y}
             rotation={-item.rotate}
-            width={datas[item.type].path[0].length * CALIBRATION_SIZE}
-            height={datas[item.type].path.length * CALIBRATION_SIZE}
+            width={{...datas,...connectors,...feed}[item.type].path[0].length * CALIBRATION_SIZE}
+            height={{...datas,...connectors,...feed}[item.type].path.length * CALIBRATION_SIZE}
             draggable
             padding={0}
             fill="transparent"
@@ -51,9 +51,8 @@ export const Item = ({ id, item, setList, setSelected, height, width }: ItemProp
                 const y = Math.round(item.y / CALIBRATION_SIZE);
                 setList(list => {
                     // TODO: invertire in base a rotation per prendere i gruppi di connettori giusti
-                    const connectors = list[id].path.map((row, i) => row.map((col, j) => col === 2 ? `${j + Number(x)}:${i + Number(y)}` : null).filter(Boolean)).filter((arr) => arr.length > 0);
+                    const connectors = list[id].path.map((row, i) => row.map((col, j) => col === 2 ? `${j + Number(x)}:${i + Number(y)}` : "").filter(Boolean)).filter((arr) => arr.length > 0);
                     const connectedItems = findConnectedItems(id, connectors, list);
-                    if (!list) return list;
                     const newConnectedItems = Object.fromEntries(Object.keys(connectedItems).map(key => [key, {
                         ...list[key],
                         connectedItems: { ...list[key].connectedItems, [id]: item }
@@ -62,7 +61,7 @@ export const Item = ({ id, item, setList, setSelected, height, width }: ItemProp
                 });
             }}
             offset={offsetCalculation(item.rotate , item)}
-            dragBoundFunc={(pos) => borderBound({ ...pos, height, width, sizeX: datas[item.type].path[0].length * CALIBRATION_SIZE, sizeY: datas[item.type].path.length * CALIBRATION_SIZE })} />
+            dragBoundFunc={(pos) => borderBound({ ...pos, height, width, sizeX: {...datas,...connectors,...feed}[item.type].path[0].length * CALIBRATION_SIZE, sizeY: {...datas,...connectors,...feed}[item.type].path.length * CALIBRATION_SIZE })} />
     );
 };
 
@@ -71,11 +70,11 @@ const offsetCalculation = (rotate: number , item: ListItem) => {
         case 0:
             return { x: 0, y: 0 };
         case 90:
-            return { x: datas[item.type].path[0].length * CALIBRATION_SIZE , y: 0 };
+            return { x: {...datas,...connectors,...feed}[item.type].path[0].length * CALIBRATION_SIZE , y: 0 };
         case 180:
-            return { x: datas[item.type].path[0].length * CALIBRATION_SIZE , y: datas[item.type].path.length * CALIBRATION_SIZE };
+            return { x: {...datas,...connectors,...feed}[item.type].path[0].length * CALIBRATION_SIZE , y: {...datas,...connectors,...feed}[item.type].path.length * CALIBRATION_SIZE };
         case 270:
-            return { x: 0, y: datas[item.type].path.length * CALIBRATION_SIZE };
+            return { x: 0, y: {...datas,...connectors,...feed}[item.type].path.length * CALIBRATION_SIZE };
         default:
             return { x: 0, y: 0 };
     }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Rect } from 'react-konva';
-import { Data, datas, ListData } from '../utils/data';
+import { feed, ListData } from '../utils/data';
 import { Header } from './Header';
 import { Item } from './Item';
 import { createGridFromArray2D } from "gridl/core";
@@ -17,7 +17,7 @@ function downloadURI(uri: string, name: string) {
     document.body.removeChild(link);
 }
 
-export const CALIBRATION_SIZE = 30;
+export const CALIBRATION_SIZE = 3;
 
 const rotateMatrix90 = (matrix: number[][]) => {
     const grid = createGridFromArray2D(matrix);
@@ -31,7 +31,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
             type: "fed4",
             x: props.width / 2,
             y: props.height / 2,
-            path: datas.fed4.path,
+            path: feed.fed4.path,
             connectors: [],
             rotate: 0,
         }
@@ -52,6 +52,11 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
 
     }, []);
+
+    useEffect(() => {
+        const arrToSend = Object.entries(list).filter(([key,value]) => value.type.startsWith("feed"))
+        parent.postMessage(arrToSend)
+    }, [list.length])
 
     const rotate = () => {
         if (!selected) return;
@@ -81,7 +86,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
         const uri = layerRef.current.toDataURL({
             mimeType: 'image/png',
             quality: 1,
-            pixelRatio: 5,
+            pixelRatio: 2,
             ...stagePos,
             ...props
 
@@ -157,7 +162,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
             </div>
             <Stage
                 ref={stageRef}
-                className='stage'
+                className='stage bg-slate-100'
                 {...props}
                 {...stagePos}
                 onWheel={zoomStage}
