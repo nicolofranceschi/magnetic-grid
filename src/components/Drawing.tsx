@@ -29,6 +29,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     const [list, setList] = useState<ListData>({
         "feed": {
             type: "fed4",
+            value: 0,
             x: props.width / 2,
             y: props.height / 2,
             path: feed.fed4.path,

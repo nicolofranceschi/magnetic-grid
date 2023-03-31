@@ -1,5 +1,6 @@
 export type Data = {
     title: string,
+    value: number,
     path: number[][],
     image: string,
 }
@@ -12,6 +13,7 @@ export type ListItem = {
     type: string,
     path: number[][],
     rotate: number,
+    value: number,
     connectors: string[][],
     connectedItems?: ListData,
     x: number,
@@ -25,6 +27,7 @@ export type ListData = {
 export const datas: Datas = {
     bar305: {
         title: 'Busbar 0.5 M',
+        value: .5,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -49,6 +52,7 @@ export const datas: Datas = {
     },
     bar31: {
         title: 'Busbar 1 M',
+        value: 1,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -91,6 +95,7 @@ export const datas: Datas = {
     },
     bar315: {
         title: 'Busbar 1.5 M',
+        value: 1.5,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -147,6 +152,7 @@ export const datas: Datas = {
     },
     bar32: {
         title: 'Busbar 2 M',
+        value: 2,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -219,6 +225,7 @@ export const datas: Datas = {
     },
     bar325: {
         title: 'Busbar 2.5 M',
+        value: 2.5,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -307,6 +314,7 @@ export const datas: Datas = {
     },
     bar33: {
         title: 'Busbar 3 M',
+        value: 3,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -411,6 +419,7 @@ export const datas: Datas = {
     },
     bar335: {
         title: 'Busbar 3.5 M',
+        value: 3.5,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -531,6 +540,7 @@ export const datas: Datas = {
     },
     bar34: {
         title: 'Busbar 4 M',
+        value: 4,
         path: [
             [0, 2, 2, 2, 2, 0],
             [0, 1, 1, 1, 1, 0],
@@ -699,6 +709,7 @@ export const datas: Datas = {
     },
     bar51: {
         title: 'Bar 5 1M',
+        value: 1,
         path: [
             [2, 2, 2, 2, 2],
             [1, 1, 1, 1, 1],
@@ -722,6 +733,7 @@ export const datas: Datas = {
 export const connectors : Datas = {
     con: {
         title: 'Connector',
+        value: 0,
         path: [
             [0, 0, 0, 1, 1, 0, 0, 0],
             [0, 0, 0, 1, 1, 1, 1, 1],
@@ -737,6 +749,7 @@ export const connectors : Datas = {
     },
     conQ: {
         title: 'Connector',
+        value: 0,
         path: [
             [1, 1, 1, 1, 0, 0],
             [1, 1, 1, 1, 1, 1],
@@ -753,6 +766,7 @@ export const connectors : Datas = {
 export const feed : Datas = {
     fed4: {
         title: 'Power Fed 3',
+        value: 0,
         path: [
             [0, 0, 2, 2, 2, 2, 0, 0],
             [0, 1, 1, 1, 1, 1, 1, 0],
@@ -771,6 +785,7 @@ export const feed : Datas = {
     },
     fed5: {
         title: 'Power Fed 5',
+        value: 0,
         path: [
             [0, 0, 2, 2, 2, 2, 2, 0, 0],
             [0, 1, 1, 1, 1, 1, 1, 1, 0],
