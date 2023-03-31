@@ -16,6 +16,9 @@ export default function App() {
     if (evt.data.toString() === "none") return;
     source = evt.source;
     setMessage(evt.data.toString());
+    if (!(evt.source instanceof MessagePort) && !(evt.source instanceof ServiceWorker)) {
+      evt.source?.postMessage('hi there, I hear you!', '*');
+    }
   }
 
   useEffect(() => {
