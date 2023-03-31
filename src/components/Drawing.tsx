@@ -55,9 +55,9 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     }, []);
 
     useEffect(() => {
-        const arrToSend = Object.entries(list).filter(([key, value]) => value.type.startsWith("feed"))
+        const arrToSend = Object.values(list).filter((value) => value.type.startsWith("feed"))
         parent.postMessage(arrToSend)
-    }, [Object.keys(list).length])
+    }, [list && Object.keys(list).length])
 
     const rotate = () => {
         if (!selected) return;
@@ -83,7 +83,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
 
     const handleExport = async () => {
         if (!layerRef.current) return;
-        stageRef.current.scale({ x: 0, y: 0 });
+        stageRef.current.scale({ x: 1, y: 1 });
         flushSync(() => setSelected(undefined))
         const uri = layerRef.current.toDataURL({
             mimeType: 'image/png',
