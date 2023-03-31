@@ -58,9 +58,12 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     useEffect(() => {
         const arrToSend = Object.values(list).filter((value) => value.type.startsWith("feed"))
         //parent.postMessage(arrToSend)
-        parent.postMessage("ei soono io","*")
+        
         //source?.postMessage(arrToSend)
-        source?.postMessage("io la seconda opzione","*")
+        if (!(source instanceof MessagePort) && !(source instanceof ServiceWorker)) {
+            source?.postMessage("io la seconda opzione","*")
+          }
+        
         console.log("send")
     }, [list && Object.keys(list).length])
 
