@@ -25,7 +25,7 @@ const rotateMatrix90 = (matrix: number[][]) => {
     return rotatedGrid.array2D;
 }
 
-export default function Drawing(props: StageSize & { littleBarType: boolean}) {
+export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     const [list, setList] = useState<ListData>({
         "feed": {
             type: "fed4",
@@ -54,9 +54,9 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
     }, []);
 
     useEffect(() => {
-        const arrToSend = Object.entries(list).filter(([key,value]) => value.type.startsWith("feed"))
+        const arrToSend = Object.entries(list).filter(([key, value]) => value.type.startsWith("feed"))
         parent.postMessage(arrToSend)
-    }, [list.length])
+    }, [Object.keys(list).length])
 
     const rotate = () => {
         if (!selected) return;
