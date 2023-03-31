@@ -60,8 +60,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
         if (!(source instanceof MessagePort) && !(source instanceof ServiceWorker)) {
             source?.postMessage(JSON.stringify(arrToSend), '*');
           }
-        
-        console.log("send")
+        console.log("send",arrToSend)
     }, [list && Object.keys(list).length])
 
     const rotate = () => {
