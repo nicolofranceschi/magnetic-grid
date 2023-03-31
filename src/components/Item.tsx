@@ -14,6 +14,14 @@ type ItemProps = StageSize & {
     setSelected: SetFunction<string | undefined>;
 };
 
+function findConnectedItems(id: string, connectors: string[][], list: ListData) {
+    const listWithoutCurrent = Object.entries(list).filter(([key]) => key !== id);
+    return Object.fromEntries(listWithoutCurrent.filter(([key, item]) => {
+        if (!item.connectors || item.connectors.length === 0) return null;
+        return connectors.some(group => item.connectors.some(otherGroup => JSON.stringify(group) === JSON.stringify(otherGroup)))
+    }));
+}
+
 export const Item = ({ id, item, setList, setSelected, height, width }: ItemProps) => {
 
     const [img] = useImage(datas[item.type].image);
@@ -39,7 +47,19 @@ export const Item = ({ id, item, setList, setSelected, height, width }: ItemProp
                 setList(list => list && ({ ...list, [id]: { ...list[id], x: e.target.x() <= 0 || e.target.x() > width ?  list[id].x : e.target.x()  , y: e.target.y() <= 0 || e.target.y() >= height ? list[id].y : e.target.y() } }));
             }}
             onDragEnd={() => {
-                setList(list => list && ({ ...list, [id]: { ...list[id], x: Math.round(item.x / CALIBRATION_SIZE) * CALIBRATION_SIZE, y: Math.round(item.y / CALIBRATION_SIZE) * CALIBRATION_SIZE } }));
+                const x = Math.round(item.x / CALIBRATION_SIZE);
+                const y = Math.round(item.y / CALIBRATION_SIZE);
+                setList(list => {
+                    // TODO: invertire in base a rotation per prendere i gruppi di connettori giusti
+                    const connectors = list[id].path.map((row, i) => row.map((col, j) => col === 2 ? `${j + Number(x)}:${i + Number(y)}` : null).filter(Boolean)).filter((arr) => arr.length > 0);
+                    const connectedItems = findConnectedItems(id, connectors, list);
+                    if (!list) return list;
+                    const newConnectedItems = Object.fromEntries(Object.keys(connectedItems).map(key => [key, {
+                        ...list[key],
+                        connectedItems: { ...list[key].connectedItems, [id]: item }
+                    }]));
+                    return { ...list, [id]: { ...list[id], connectedItems, connectors, x: x * CALIBRATION_SIZE, y: y * CALIBRATION_SIZE }, ...newConnectedItems }
+                });
             }}
             offset={offsetCalculation(item.rotate , item)}
             dragBoundFunc={(pos) => borderBound({ ...pos, height, width, sizeX: datas[item.type].path[0].length * CALIBRATION_SIZE, sizeY: datas[item.type].path.length * CALIBRATION_SIZE })} />

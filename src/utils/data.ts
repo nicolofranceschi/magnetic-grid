@@ -12,6 +12,8 @@ export type ListItem = {
     type: string,
     path: number[][],
     rotate: number,
+    connectors: string[][],
+    connectedItems?: ListData,
     x: number,
     y: number
 }
@@ -269,55 +271,8 @@ export const datas: Datas = {
         ],
         image: 'assets/fed5.png',
     },
-    jp: {
-        title: 'Joint',
-        path: [
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-        ],
-        image: 'assets/jp.png',
-    },
-    jpA: {
-        title: 'Joint',
-        path: [
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-        ],
-        image: 'assets/jpA.png',
-    },
-    jpB: {
-        title: 'Joint',
-        path: [
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [0, 1, 1, 1, 0],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-        ],
-        image: '/assets/jpB.png',
-    },
-    end: {
-        title: 'End Cap',
-        path: [
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1],
-        ],
-        image: 'assets/end.png',
-    },
     con: {
-        title: 'Conector',
+        title: 'Connector',
         path: [
             [0, 0, 0, 1, 1, 0, 0, 0],
             [0, 0, 0, 1, 1, 1, 1, 1],
@@ -332,7 +287,7 @@ export const datas: Datas = {
         image: 'assets/con.png',
     },
     conQ: {
-        title: 'Conector',
+        title: 'Connector',
         path: [
             [1, 1, 1, 1, 0, 0],
             [1, 1, 1, 1, 1, 1],

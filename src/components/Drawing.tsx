@@ -17,7 +17,7 @@ function downloadURI(uri: string, name: string) {
     document.body.removeChild(link);
 }
 
-export const CALIBRATION_SIZE = 5;
+export const CALIBRATION_SIZE = 30;
 
 const rotateMatrix90 = (matrix: number[][]) => {
     const grid = createGridFromArray2D(matrix);
@@ -32,6 +32,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
             x: props.width / 2,
             y: props.height / 2,
             path: datas.fed4.path,
+            connectors: [],
             rotate: 0,
         }
     });
@@ -176,7 +177,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
                     />
                     {selected && list?.[selected].path?.map((row, i) => {
                         return row.map((col, j) => {
-                            if (col === 0) return null;
+                            // if (col === 0) return null;
                             return (
                                 <Rect
                                     key={`${i}-${j}`}
@@ -184,7 +185,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean}) {
                                     y={Math.round((list[selected].y + i * CALIBRATION_SIZE) / CALIBRATION_SIZE) * CALIBRATION_SIZE}
                                     width={CALIBRATION_SIZE}
                                     height={CALIBRATION_SIZE}
-                                    fill='#f3ffc4'
+                                    fill={col === 2 ? 'red' : '#f3ffc4'}
                                 />
                             )
                         })
