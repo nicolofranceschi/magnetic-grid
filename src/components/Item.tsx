@@ -9,7 +9,7 @@ type ItemProps = StageSize & {
     id: string;
     item: ListItem;
     list: ListData;
-    setList: SetFunction<ListData | undefined>;
+    setList: SetFunction<ListData>;
     selected: string | undefined;
     setSelected: SetFunction<string | undefined>;
 };
@@ -28,13 +28,15 @@ export const Item = ({ id, item, setList, setSelected, height, width }: ItemProp
             height={datas[item.type].path.length * CALIBRATION_SIZE}
             draggable
             padding={0}
-            cornerRadius={10}
             fill="transparent"
+            onClick={() => {
+                setSelected(id);
+            }}
             onDragStart={() => {
                 setSelected(id);
             }}
             onDragMove={(e) => {
-                setList(list => list && ({ ...list, [id]: { ...list[id], x: e.target.x(), y: e.target.y() } }));
+                setList(list => list && ({ ...list, [id]: { ...list[id], x: e.target.x() <= 0 || e.target.x() > width ?  list[id].x : e.target.x()  , y: e.target.y() <= 0 || e.target.y() >= height ? list[id].y : e.target.y() } }));
             }}
             onDragEnd={() => {
                 setList(list => list && ({ ...list, [id]: { ...list[id], x: Math.round(item.x / CALIBRATION_SIZE) * CALIBRATION_SIZE, y: Math.round(item.y / CALIBRATION_SIZE) * CALIBRATION_SIZE } }));

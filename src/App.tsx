@@ -6,7 +6,9 @@ export default function App() {
 
   const { width, height } = useWindowSize();
 
-  const [message, setMessage] = useState<MessageEvent | null>();
+  const [message, setMessage] = useState<string | null>();
+
+  // 4-CU , 5-CU , 4-AL , 5-AL
 
   function displayMessage(evt: MessageEvent) {
     if (evt.data.toString() === "none") return;
@@ -22,9 +24,9 @@ export default function App() {
   }, [])
 
   return (
-    <div className="bg-white flex items-center justify-center h-full w-full text-black">
+    <div className="bg-black flex items-center justify-center h-[100vh] w-[100vw] text-black">
       {!message && <p>Select Model</p> }
-      {message && <Drawing width={width ?? 0} height={height ?? 0} />}
+      {message && <Drawing width={width ?? 0} height={height ?? 0} littleBarType={message.startsWith("4")} />}
     </div>
   );
 }
