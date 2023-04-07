@@ -1,8 +1,8 @@
 import { connectors, datas, ListData } from '../utils/data';
-
-export const Header = ({ setList , dim , littleBarType }: { setList: SetFunction<ListData>, dim: any , littleBarType: boolean }) => (
+console.log(datas)
+export const Header = ({ setList, dim, littleBarType }: { setList: SetFunction<ListData>, dim: any , littleBarType: boolean }) => (
     <div className='header'>
-        {[...Object.entries(datas).filter((el) => littleBarType ? el[0].startsWith("bar3") : el[0].startsWith("bar5") ), ...Object.entries(connectors)].map(([key, data]) => (
+        {[...Object.entries(datas), ...Object.entries(connectors)].map(([key, data]) => (
              <button key={key} className='selectProduct' onClick={() => setList(list => ({
                 ...list, [Date.now()]: {
                     type: key,
@@ -13,7 +13,7 @@ export const Header = ({ setList , dim , littleBarType }: { setList: SetFunction
                 }
             }))}>
                 <span>{data.title}</span>
-                <img src={data.image} />
+                <img src={`assets/${key}.png`} />
             </button>
             
         ))}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Rect } from 'react-konva';
-import { feed, ListData } from '../utils/data';
+import { feeds, ListData } from '../utils/data';
 import { Header } from './Header';
 import { Item } from './Item';
 import { createGridFromArray2D } from "gridl/core";
@@ -29,12 +29,11 @@ const rotateMatrix90 = (matrix: number[][]) => {
 export default function Drawing(props: StageSize & { littleBarType: boolean }) {
     const [list, setList] = useState<ListData>({
         "feed": {
-            type: "fed4",
+            type: "feed",
             value: 0,
             x: props.width / 2,
             y: props.height / 2,
-            path: feed.fed4.path,
-            connectors: [],
+            path: feeds.feed.path,
             rotate: 0,
         }
     });
@@ -69,7 +68,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
             return {
                 ...currentList, [selected]: {
                     ...currentList[selected],
-                    rotate: currentList[selected].rotate + 90,
+                    rotate: (currentList[selected].rotate + 90) % 360,
                     path: rotateMatrix90(currentList[selected].path)
                 }
             }
@@ -143,7 +142,6 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
                         </svg>
                     </span>
                 </button>
-
             </div>}
             <div className='zoom flex items-center justify-center p-4'>
                 <p className='p-2 text-white'> zoom {Math.trunc(zoom)} </p>

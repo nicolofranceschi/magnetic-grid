@@ -31,8 +31,8 @@ export default function App() {
 
   return (
     <div className="bg-white flex items-center justify-center h-[100vh] w-[100vw] text-black">
-      {!message && <p>Select Model</p> }
-      {message && width && height && <Drawing width={width} height={height} littleBarType={message.startsWith("4")} />}
+      {message && <p>Select Model</p> }
+      {!message && width && height && <Drawing width={width} height={height} littleBarType={message?.startsWith("4") ?? true} />}
     </div>
   );
 }
