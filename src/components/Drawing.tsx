@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Stage, Layer, Rect } from 'react-konva';
+import { Stage, Layer, Rect, Image } from 'react-konva';
 import { feeds, ListData } from '../utils/data';
 import { Header } from './Header';
 import { Item } from './Item';
@@ -8,6 +8,7 @@ import { rotate90, transform } from 'gridl';
 import { StageSize } from '../types';
 import { flushSync } from 'react-dom';
 import { source } from '../App';
+import useImage from 'use-image';
 
 function downloadURI(uri: string, name: string) {
     var link = document.createElement("a");
@@ -26,23 +27,29 @@ const rotateMatrix90 = (matrix: number[][]) => {
     return rotatedGrid.array2D;
 }
 
-export default function Drawing(props: StageSize & { littleBarType: boolean }) {
+const width = 1000;
+const height = 1000;
+
+export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
     const [list, setList] = useState<ListData>({
         "feed": {
             type: "feed",
             value: 0,
-            x: props.width / 2,
-            y: props.height / 2,
+            x: width / 2,
+            y: height / 2,
             path: feeds.feed.path,
             rotate: 0,
         }
     });
+
     const [stagePos, setStagePos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
     const [selected, setSelected] = useState<string>();
     const [zoom, setZoom] = useState(0);
     const stageRef = useRef<any>();
     const layerRef = useRef<any>();
     const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const [logo] = useImage(`assets/logo.png`);
 
     useEffect(() => {
         function onFullscreenChange() {
@@ -59,7 +66,6 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
         if (!(source instanceof MessagePort) && !(source instanceof ServiceWorker)) {
             source?.postMessage(JSON.stringify(arrToSend), '*');
           }
-        console.log("send",arrToSend)
     }, [list && Object.keys(list).length])
 
     const rotate = () => {
@@ -93,7 +99,8 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
             quality: 1,
             pixelRatio: 2,
             ...stagePos,
-            ...props
+            width,
+            height,
 
         });
         downloadURI(uri, "stage.png");
@@ -126,7 +133,7 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
 
     return (
         <div className='bg'>
-            <Header setList={setList} dim={props} littleBarType={props.littleBarType} />
+            <Header setList={setList} dim={{width,height}} littleBarType={littleBarType} />
             {list && selected && <div className='tools flex items-center justify-center'>
                 <button onClick={rotate} type='button'>
                     <span>
@@ -167,8 +174,8 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
             <Stage
                 ref={stageRef}
                 className='stage bg-slate-100'
-                {...props}
-                {...stagePos}
+                width={7000}
+                height={7000}
                 onWheel={zoomStage}
                 draggable
                 onDragEnd={e => {
@@ -181,7 +188,8 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
                     <Rect
                         x={0}
                         y={0}
-                        {...props}
+                        width={width}
+                        height={height}
                         fill='white'
                     />
                     {selected && list?.[selected].path?.map((row, i) => {
@@ -200,8 +208,9 @@ export default function Drawing(props: StageSize & { littleBarType: boolean }) {
                         })
                     })}
                     {list && Object.entries(list).map(([key, item]) => (
-                        <Item key={key} id={key} item={item} list={list} setList={setList} selected={selected} setSelected={setSelected} {...props} />
+                        <Item width={width} height={height} key={key} id={key} item={item} list={list} setList={setList} selected={selected} setSelected={setSelected} littleBarType={littleBarType} />
                     ))}
+                    <Image image={logo} x={6900} y={6700} width={300} height={100} />
                 </Layer>
             </Stage>
         </div>

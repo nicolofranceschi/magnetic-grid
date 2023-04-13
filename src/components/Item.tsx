@@ -12,6 +12,7 @@ type ItemProps = StageSize & {
     setList: SetFunction<ListData>;
     selected: string | undefined;
     setSelected: SetFunction<string | undefined>;
+    littleBarType: boolean;
 };
 
 function findConnectors (item: ListItem) {
@@ -42,10 +43,13 @@ function calculateConnectedItemsWholeList (list: ListData) {
     }))
 }
 const fullData = { ...datas, ...connectors, ...feeds };
-export const Item = ({ id, item, setList, setSelected, height, width }: ItemProps) => {
+
+export const Item = ({ id, item, setList, setSelected, height, width , littleBarType }: ItemProps) => {
+
     const itemConfigData = fullData[item.type];
     const isConnected = Object.keys(item.connectedItems ?? {}).length > 0;
-    const [img] = useImage(`assets/${item.type}${isConnected ? '-no-pins' : ''}.png`);
+
+    const [img] = useImage(`assets/${item.type}${isConnected ? '-no-pins' : littleBarType ? '-4' : '-5'}.png`);
 
     return (
         <Image

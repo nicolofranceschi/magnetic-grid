@@ -8,7 +8,7 @@ export default function App() {
 
   const { width, height } = useWindowSize();
 
-  const [message, setMessage] = useState<string | null>();
+  const [message, setMessage] = useState<string | null>("4-CU");
 
   // 4-CU , 5-CU , 4-AL , 5-AL
 
@@ -31,8 +31,8 @@ export default function App() {
 
   return (
     <div className="bg-white flex items-center justify-center h-[100vh] w-[100vw] text-black">
-      {message && <p>Select Model</p> }
-      {!message && width && height && <Drawing width={width} height={height} littleBarType={message?.startsWith("4") ?? true} />}
+      {!message && <p>Select Model</p> }
+      {message && width && height && <Drawing littleBarType={message.startsWith("4") ?? true} />}
     </div>
   );
 }
