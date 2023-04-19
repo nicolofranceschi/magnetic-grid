@@ -27,10 +27,13 @@ const rotateMatrix90 = (matrix: number[][]) => {
     return rotatedGrid.array2D;
 }
 
-const width = 1000;
-const height = 1000;
+const stageDims = {
+    width: 3000,
+    height: 3000,
+}
 
-export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
+export default function Drawing({ littleBarType , width , height }:{littleBarType: boolean ,  width: number , height: number}) {
+
     const [list, setList] = useState<ListData>({
         "feed": {
             type: "feed",
@@ -62,11 +65,12 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
     }, []);
 
     useEffect(() => {
-        const arrToSend = Object.values(list).filter((value) => value.type.startsWith("feed"))
+        const arrToSend = list && Object.values(list).filter((value) => !value.type.startsWith("feed")).map((value) => value.type);
+        console.log("sendlist", arrToSend)
         if (!(source instanceof MessagePort) && !(source instanceof ServiceWorker)) {
             source?.postMessage(JSON.stringify(arrToSend), '*');
           }
-    }, [list && Object.keys(list).length])
+    }, [Object.keys(list || {}).length])
 
     const rotate = () => {
         if (!selected) return;
@@ -99,8 +103,7 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
             quality: 1,
             pixelRatio: 2,
             ...stagePos,
-            width,
-            height,
+            ...stageDims
 
         });
         downloadURI(uri, "stage.png");
@@ -131,10 +134,12 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
         }
     }
 
+    console.log("render", list)
+
     return (
         <div className='bg'>
             <Header setList={setList} dim={{width,height}} littleBarType={littleBarType} />
-            {list && selected && <div className='tools flex items-center justify-center'>
+            {selected && <div className='tools flex items-center justify-center'>
                 <button onClick={rotate} type='button'>
                     <span>
                         <svg height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" >
@@ -174,8 +179,8 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
             <Stage
                 ref={stageRef}
                 className='stage bg-slate-100'
-                width={7000}
-                height={7000}
+                position={stagePos}
+                {...stageDims}
                 onWheel={zoomStage}
                 draggable
                 onDragEnd={e => {
@@ -188,13 +193,12 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
                     <Rect
                         x={0}
                         y={0}
-                        width={width}
-                        height={height}
+                        {...stageDims}
                         fill='white'
                     />
                     {selected && list?.[selected].path?.map((row, i) => {
                         return row.map((col, j) => {
-                            // if (col === 0) return null;
+                            if (col === 0) return null;
                             return (
                                 <Rect
                                     key={`${i}-${j}`}
@@ -202,7 +206,7 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
                                     y={Math.round((list[selected].y + i * CALIBRATION_SIZE) / CALIBRATION_SIZE) * CALIBRATION_SIZE}
                                     width={CALIBRATION_SIZE}
                                     height={CALIBRATION_SIZE}
-                                    fill={col === 2 ? 'red' : '#f3ffc4'}
+                                    fill={col === 2 ? 'green' : '#f3ffc4'}
                                 />
                             )
                         })
@@ -210,7 +214,7 @@ export default function Drawing({ littleBarType }:{littleBarType: boolean}) {
                     {list && Object.entries(list).map(([key, item]) => (
                         <Item width={width} height={height} key={key} id={key} item={item} list={list} setList={setList} selected={selected} setSelected={setSelected} littleBarType={littleBarType} />
                     ))}
-                    <Image image={logo} x={6900} y={6700} width={300} height={100} />
+                    <Image  image={logo} x={2700} y={2900} width={300} height={100} />
                 </Layer>
             </Stage>
         </div>

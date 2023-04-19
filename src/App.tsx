@@ -8,17 +8,12 @@ export default function App() {
 
   const { width, height } = useWindowSize();
 
-  const [message, setMessage] = useState<string | null>("4-CU");
-
-  // 4-CU , 5-CU , 4-AL , 5-AL
+  const [message, setMessage] = useState<string | null>("4");
 
   function displayMessage(evt: MessageEvent) {
     if (evt.data.toString() === "none") return;
     source = evt.source;
     setMessage(evt.data.toString());
-    if (!(evt.source instanceof MessagePort) && !(evt.source instanceof ServiceWorker)) {
-      evt.source?.postMessage('hi there, I hear you!', '*');
-    }
   }
 
   useEffect(() => {
@@ -32,7 +27,7 @@ export default function App() {
   return (
     <div className="bg-white flex items-center justify-center h-[100vh] w-[100vw] text-black">
       {!message && <p>Select Model</p> }
-      {message && width && height && <Drawing littleBarType={message.startsWith("4") ?? true} />}
+      {message && width && height && <Drawing littleBarType={message.startsWith("4")} width={width} height={height} />}
     </div>
   );
 }

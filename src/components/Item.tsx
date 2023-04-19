@@ -1,4 +1,4 @@
-import { Image } from 'react-konva';
+import { Image, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { borderBound } from '../utils/function';
 import { connectors, datas, feeds, ListData, ListItem } from '../utils/data';
@@ -32,7 +32,6 @@ function calculateConnectedItemsWholeList (list: ListData) {
     return Object.fromEntries(Object.entries(list).map(([key, item]) => {
         const listWithoutCurrent = Object.entries(list).filter(([innerKey]) => innerKey !== key);
         const myConnectors = findConnectors(item);
-        
         const connectedItems = Object.fromEntries(listWithoutCurrent.filter(([_, innerItem]) => {
             const innerConnectors = findConnectors(innerItem);
             if (!innerConnectors || innerConnectors.length === 0) return null;
@@ -76,7 +75,6 @@ export const Item = ({ id, item, setList, setSelected, height, width , littleBar
                 const y = Math.round(item.y / CALIBRATION_SIZE) * CALIBRATION_SIZE;
                 setList(list => {
                     const newList = calculateConnectedItemsWholeList(list);
-                    console.log('Item ~ newList:', newList);
                     return { ...newList, [id]: { ...newList[id], x, y } }
                 });
             }}
