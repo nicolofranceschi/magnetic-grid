@@ -36,7 +36,7 @@ export default function Drawing({ littleBarType , width , height }:{littleBarTyp
     const [list, setList] = useState<ListData>({
         "feed": {
             type: "feed",
-            value: 0,
+            value: "0",
             x: width / 2,
             y: height / 2,
             path: feeds.feed.path,
