@@ -31,7 +31,7 @@ const stageDims = {
     height: 3000,
 }
 
-export default function Drawing({ littleBarType , width , height }:{littleBarType: boolean ,  width: number , height: number}) {
+export default function Drawing({ littleBarType , width , height }:{ littleBarType: boolean ,  width: number , height: number}) {
 
     const [list, setList] = useState<ListData>({
         "feed": {
