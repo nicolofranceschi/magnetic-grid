@@ -64,7 +64,7 @@ export default function Drawing({ littleBarType , width , height }:{littleBarTyp
     }, []);
 
     useEffect(() => {
-        const arrToSend = list && Object.values(list).filter((value) => !value.type.startsWith("feed")).map((value) => value.type);
+        const arrToSend = list && Object.values(list).filter((value) => value.type.startsWith("bar")).map((value) => value.value);
         console.log("sendlist", arrToSend)
         if (!(source instanceof MessagePort) && !(source instanceof ServiceWorker)) {
             source?.postMessage(JSON.stringify(arrToSend), '*');
