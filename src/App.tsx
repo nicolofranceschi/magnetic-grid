@@ -8,7 +8,7 @@ export default function App() {
 
   const { width, height } = useWindowSize();
 
-  const [message, setMessage] = useState<string | null>("4");
+  const [message, setMessage] = useState<string | null>();
 
   function displayMessage(evt: MessageEvent) {
     if (evt.data.toString() === "none") return;
@@ -27,7 +27,7 @@ export default function App() {
   return (
     <div className="bg-white flex items-center justify-center h-[100vh] w-[100vw] text-black">
       {!message && <p>Select Model</p> }
-      {message && width && height && <Drawing littleBarType={message.startsWith("4")} width={width} height={height} />}
+      {message && width && height && <Drawing littleBarType={message.startsWith(message)} width={width} height={height} />}
     </div>
   );
 }

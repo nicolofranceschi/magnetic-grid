@@ -5,7 +5,6 @@ import { Header } from './Header';
 import { Item } from './Item';
 import { createGridFromArray2D } from "gridl/core";
 import { rotate90, transform } from 'gridl';
-import { StageSize } from '../types';
 import { flushSync } from 'react-dom';
 import { source } from '../App';
 import useImage from 'use-image';
@@ -133,8 +132,6 @@ export default function Drawing({ littleBarType , width , height }:{littleBarTyp
             stage.batchDraw();
         }
     }
-
-    console.log("render", list)
 
     return (
         <div className='bg'>
