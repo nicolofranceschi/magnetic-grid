@@ -1,4 +1,4 @@
-import { Image, Rect } from 'react-konva';
+import { Image} from 'react-konva';
 import useImage from 'use-image';
 import { borderBound } from '../utils/function';
 import { connectors, datas, feeds, ListData, ListItem } from '../utils/data';

@@ -203,7 +203,7 @@ export default function Drawing({ littleBarType , width , height }:{littleBarTyp
                                     y={Math.round((list[selected].y + i * CALIBRATION_SIZE) / CALIBRATION_SIZE) * CALIBRATION_SIZE}
                                     width={CALIBRATION_SIZE}
                                     height={CALIBRATION_SIZE}
-                                    fill={col === 2 ? 'green' : '#f3ffc4'}
+                                    fill={col === 2 ? 'green' : "white"}
                                 />
                             )
                         })

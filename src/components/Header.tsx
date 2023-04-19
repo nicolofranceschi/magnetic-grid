@@ -6,6 +6,7 @@ export const Header = ({ setList, dim, littleBarType }: { setList: SetFunction<L
                 ...list, [Date.now()]: {
                     type: key,
                     path: data.path,
+                    value: data.value,
                     rotate: 0,
                     x: dim.width / 2,
                     y: dim.height / 2,
